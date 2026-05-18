@@ -54,16 +54,6 @@ DELETE /api/v2/notificaciones/{id}
 
 Este microservicio permite la integración y comunicación con otros microservicios del sistema para registrar y gestionar notificaciones relacionadas con eventos, pagos y procesos internos.
 
-## Configuración del proyecto
-
-Variables utilizadas mediante Docker y Spring Boot:
-
-```properties id="h3oh75"
-spring.datasource.url
-spring.datasource.username
-spring.datasource.password
-```
-
 ## Validaciones
 
 * Validación de campos obligatorios
