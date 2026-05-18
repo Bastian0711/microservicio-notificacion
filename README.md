@@ -10,6 +10,7 @@ Microservicio encargado de gestionar y enviar notificaciones dentro del sistema 
 * Gestionar mensajes de notificación
 * Comunicación entre microservicios
 * Registro de eventos y alertas
+* Gestión de mensajes asociados a usuarios
 
 ## Tecnologías utilizadas
 
@@ -19,10 +20,11 @@ Microservicio encargado de gestionar y enviar notificaciones dentro del sistema 
 * Maven
 * Docker
 * Docker Compose
+* OpenFeign
 
 ## Ejecución del proyecto
 
-```bash id="5v4csl"
+```bash id="7krxnt"
 docker compose up -d
 ```
 
@@ -30,22 +32,41 @@ docker compose up -d
 
 ### Obtener notificaciones
 
-GET /api/v1/notificaciones
+GET /api/v2/notificaciones
+
+### Obtener notificación por ID
+
+GET /api/v2/notificaciones/{id}
 
 ### Crear notificación
 
-POST /api/v1/notificaciones
+POST /api/v2/notificaciones
 
 ### Actualizar notificación
 
-PUT /api/v1/notificaciones/{id}
+PUT /api/v2/notificaciones/{id}
 
 ### Eliminar notificación
 
-DELETE /api/v1/notificaciones/{id}
+DELETE /api/v2/notificaciones/{id}
+
+## Comunicación entre microservicios
+
+Este microservicio permite la integración y comunicación con otros microservicios del sistema para registrar y gestionar notificaciones relacionadas con eventos, pagos y procesos internos.
+
+## Configuración del proyecto
+
+Variables utilizadas mediante Docker y Spring Boot:
+
+```properties id="h3oh75"
+spring.datasource.url
+spring.datasource.username
+spring.datasource.password
+```
 
 ## Validaciones
 
 * Validación de campos obligatorios
 * Manejo de errores controlados
 * Bean Validation activa
+* Validación de datos recibidos desde otros microservicios
