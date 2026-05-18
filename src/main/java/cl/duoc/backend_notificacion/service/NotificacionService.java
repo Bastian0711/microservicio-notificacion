@@ -8,10 +8,10 @@ import cl.duoc.backend_notificacion.client.UsuarioClient;
 import cl.duoc.backend_notificacion.dto.NotificacionCreateDTO;
 import cl.duoc.backend_notificacion.dto.NotificacionDTO;
 import cl.duoc.backend_notificacion.dto.UsuarioDTO;
-import cl.duoc.backend_notificacion.model.Notificacion;
-import cl.duoc.backend_notificacion.repository.NotificacionRepository;
 import cl.duoc.backend_notificacion.exception.RecursoNoEncontradoException;
 import cl.duoc.backend_notificacion.exception.ServicioNoDisponibleException;
+import cl.duoc.backend_notificacion.model.Notificacion;
+import cl.duoc.backend_notificacion.repository.NotificacionRepository;
 import feign.FeignException;
 
 @Service
@@ -68,11 +68,8 @@ public class NotificacionService {
     }
 
     public boolean eliminarNotificacion(Long id) {
-        Notificacion notificacion = buscarPorId(id);
-
-        if (notificacion == null) {
-            return false;
-        }
+        Notificacion notificacion = notificacionRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Notificación no encontrada"));
 
         notificacionRepository.delete(notificacion);
         return true;
@@ -85,7 +82,7 @@ public class NotificacionService {
         Notificacion notificacion = new Notificacion();
         notificacion.setDestinatario(usuario.getCorreo());
         notificacion.setMensaje(dto.getMensaje());
-        notificacion.setTipo("SISTEMA");
+        notificacion.setTipo(dto.getTipo());
         notificacion.setEstado("ENVIADA");
 
         notificacionRepository.save(notificacion);
