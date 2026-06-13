@@ -1,13 +1,17 @@
 package cl.duoc.backend_notificacion.controller;
 
-import cl.duoc.backend_notificacion.model.Notificacion;
-import cl.duoc.backend_notificacion.service.NotificacionService;
-import cl.duoc.backend_notificacion.dto.NotificacionCreateDTO;
-import cl.duoc.backend_notificacion.dto.NotificacionDTO;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import cl.duoc.backend_notificacion.dto.NotificacionCreateDTO;
+import cl.duoc.backend_notificacion.dto.NotificacionDTO;
+import cl.duoc.backend_notificacion.dto.NotificacionUpdateDTO;
+import cl.duoc.backend_notificacion.service.NotificacionService;
 
 @RestController
 @RequestMapping("/api/v2/notificaciones")
@@ -20,41 +24,41 @@ public class NotificacionController {
     }
 
     @GetMapping
-    public List<Notificacion> listarNotificaciones() {
+    public List<NotificacionDTO> listarNotificaciones() {
         return notificacionService.listarNotificaciones();
     }
 
-    @PostMapping
-    public NotificacionDTO enviarNotificacion(@Valid @RequestBody NotificacionCreateDTO dto) {
-        return notificacionService.enviarNotificacion(dto);
+    @GetMapping("/{id}")
+    public NotificacionDTO buscarPorId(@PathVariable Long id) {
+        return notificacionService.obtenerPorId(id);
     }
 
-    @GetMapping("/{id}")
-    public Notificacion buscarPorId(@PathVariable Long id) {
-        return notificacionService.buscarPorId(id);
+    @GetMapping("/usuario/{idUsuario}")
+    public List<NotificacionDTO> listarPorUsuario(@PathVariable Long idUsuario) {
+        return notificacionService.listarPorUsuario(idUsuario);
+    }
+
+    @PostMapping
+    public ResponseEntity<NotificacionDTO> enviarNotificacion(@Valid @RequestBody NotificacionCreateDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(notificacionService.enviarNotificacion(dto));
     }
 
     @PutMapping("/{id}")
-    public Notificacion actualizarNotificacion(
+    public NotificacionDTO actualizarNotificacion(
             @PathVariable Long id,
-            @Valid @RequestBody Notificacion notificacionActualizada) {
+            @RequestBody NotificacionUpdateDTO dto) {
 
-        return notificacionService.actualizarNotificacion(id, notificacionActualizada);
+        return notificacionService.actualizarNotificacion(id, dto);
     }
 
     @PutMapping("/{id}/leer")
-    public Notificacion marcarComoLeida(@PathVariable Long id) {
-        return notificacionService.marcarComoLeida(id);
+    public ResponseEntity<NotificacionDTO> marcarComoLeida(@PathVariable Long id) {
+        return ResponseEntity.ok(notificacionService.marcarComoLeida(id));
     }
 
     @DeleteMapping("/{id}")
-    public String eliminarNotificacion(@PathVariable Long id) {
-        boolean eliminado = notificacionService.eliminarNotificacion(id);
-
-        if (eliminado) {
-            return "Notificación eliminada correctamente";
-        }
-
-        return "Notificación no encontrada";
+    public ResponseEntity<String> eliminarNotificacion(@PathVariable Long id) {
+        notificacionService.eliminarNotificacion(id);
+        return ResponseEntity.ok("Notificación eliminada correctamente");
     }
 }
