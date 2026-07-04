@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v2/notificaciones")
+@RequestMapping("/api/v3/notificaciones")
 @Tag(name = "Notificaciones", description = "Operaciones relacionadas con notificaciones")
 public class NotificacionController {
 
