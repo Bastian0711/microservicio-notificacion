@@ -9,6 +9,6 @@ import cl.duoc.backend_notificacion.dto.UsuarioDTO;
 @FeignClient(name = "usuario-service", url = "${usuario.service.url}")
 public interface UsuarioClient {
 
-    @GetMapping("/api/v2/usuarios/{id}")
+    @GetMapping("/api/v3/usuarios/{id}")
     UsuarioDTO obtenerUsuario(@PathVariable("id") Long id);
 }
