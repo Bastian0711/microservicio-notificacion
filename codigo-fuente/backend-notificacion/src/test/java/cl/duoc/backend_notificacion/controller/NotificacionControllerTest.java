@@ -25,7 +25,7 @@ class NotificacionControllerTest {
     void testListarRetorna200() throws Exception {
         when(service.listarNotificaciones()).thenReturn(List.of());
 
-        mockMvc.perform(get("/api/v2/notificaciones"))
+        mockMvc.perform(get("/api/v3/notificaciones"))
                 .andExpect(status().isOk());
     }
 
@@ -35,7 +35,7 @@ class NotificacionControllerTest {
 
         when(service.obtenerPorId(1L)).thenReturn(dto);
 
-        mockMvc.perform(get("/api/v2/notificaciones/1"))
+        mockMvc.perform(get("/api/v3/notificaciones/1"))
                 .andExpect(status().isOk());
     }
 
@@ -43,7 +43,7 @@ class NotificacionControllerTest {
     void testEliminarRetorna200() throws Exception {
         doNothing().when(service).eliminarNotificacion(1L);
 
-        mockMvc.perform(delete("/api/v2/notificaciones/1"))
+        mockMvc.perform(delete("/api/v3/notificaciones/1"))
                 .andExpect(status().isOk());
     }
 }
